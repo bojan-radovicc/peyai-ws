@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PeyAI | Inventory Management Case Study</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png" />
+  <link rel="manifest" href="assets/favicon/site.webmanifest" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+    integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/utilities.css" />
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <a class="nav-home" href="index.html" aria-label="Home">
+        <i class="fas fa-home" aria-hidden="true"></i>
+      </a>
+      <ul class="nav-menu">
+        <li><a class="nav-link" href="index.html#about">About</a></li>
+        <li><a class="nav-link" href="index.html#projects">Case Studies</a></li>
+      </ul>
+      <div class="nav-actions">
+        <div class="theme-switch">
+          <input type="checkbox" id="theme-toggle-project" aria-label="Toggle dark mode" />
+          <label for="theme-toggle-project" class="theme-toggle-icons">
+            <i class="fas fa-sun sun"></i>
+            <i class="fas fa-moon moon"></i>
+          </label>
+        </div>
+        <div class="hamburger">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container case-hero">
+    <div class="division"></div>
+    <div class="content-text">
+      <h2 class="section-title">Inventory Management System</h2>
+      <p>A practical case study showing how PeyAI improved warehouse visibility, reduced manual errors,
+        and accelerated order processing.</p>
+      <a href="index.html#projects" class="btn btn-primary">Back to Projects <i class="fas fa-arrow-left"></i></a>
+    </div>
+
+    <div class="case-grid">
+      <article class="case-panel">
+        <h3>Challenge</h3>
+        <p>
+          The client managed three warehouses using spreadsheets and manual checks. Stock mismatches were common,
+          purchase planning was delayed, and operations lacked confidence in live inventory numbers.
+        </p>
+
+        <h3>Approach</h3>
+        <ul>
+          <li>Built a centralized inventory API with strict transaction handling.</li>
+          <li>Added real-time stock updates through event-driven processing.</li>
+          <li>Implemented role-based dashboards for operators, managers, and admins.</li>
+          <li>Introduced low-stock alerts and auto-reorder suggestions.</li>
+        </ul>
+
+        <h3>Outcome</h3>
+        <p>
+          The system improved inventory accuracy, shortened receiving-to-shelf workflows,
+          and gave leadership clear operational data for planning and forecasting.
+        </p>
+
+        <div class="case-highlights">
+          <div class="highlight">
+            <span class="meta-label">Inventory Accuracy</span>
+            <strong>+37%</strong>
+            <p>Fewer reconciliation issues after replacing manual tracking.</p>
+          </div>
+          <div class="highlight">
+            <span class="meta-label">Order Processing Time</span>
+            <strong>-28%</strong>
+            <p>Faster picking and dispatch via optimized stock visibility.</p>
+          </div>
+          <div class="highlight">
+            <span class="meta-label">Stock-Out Events</span>
+            <strong>-41%</strong>
+            <p>Proactive alerts reduced unexpected shortages.</p>
+          </div>
+        </div>
+      </article>
+
+      <aside class="case-meta">
+        <div class="meta-item">
+          <span class="meta-label">Industry</span>
+          <p>Logistics and Warehousing</p>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Duration</span>
+          <p>12 Weeks</p>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Tech Stack</span>
+          <p>React, Node.js, MongoDB, Redis</p>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Scope</span>
+          <p>Architecture, API Design, Dashboard UX, Deployment</p>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <script src="js/script.js"></script>
+</body>
+
+</html>

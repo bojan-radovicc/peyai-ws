@@ -1,7 +1,19 @@
 const hamburger = document.querySelector(".hamburger");
 const navMenu = document.querySelector(".nav-menu");
+const navbar = document.querySelector(".navbar");
 
-hamburger.addEventListener("click", mobileMenu);
+if (hamburger && navMenu) {
+  hamburger.addEventListener("click", mobileMenu);
+}
+
+// Transparent at top, solid on scroll
+function handleNavbarScroll() {
+  if (navbar) {
+    navbar.classList.toggle("scrolled", window.scrollY > 10);
+  }
+}
+window.addEventListener("scroll", handleNavbarScroll, { passive: true });
+handleNavbarScroll();
 
 function mobileMenu() {
   hamburger.classList.toggle("active");
@@ -14,7 +26,6 @@ const navLink = document.querySelectorAll(".nav-link");
 navLink.forEach((n) =>
   n.addEventListener("click", () => {
     closeMenu();
-    document.querySelector(".navbar").style.justifyContent = "center";
   })
 );
 
@@ -24,49 +35,30 @@ function closeMenu() {
 }
 
 // Event Listeners: Handling toggle event
-const toggleSwitch = document.querySelector(
-  '.theme-switch input[type="checkbox"]'
-);
-
-function switchTheme(e) {
-  if (e.target.checked) {
-    document.documentElement.setAttribute("data-theme", "dark");
-  } else {
-    document.documentElement.setAttribute("data-theme", "light");
-  }
-}
-
-toggleSwitch.addEventListener("change", switchTheme, false);
+const toggleSwitch = document.querySelector(".theme-switch input");
 
 //  Store color theme for future visits
 
 function switchTheme(e) {
   if (e.target.checked) {
     document.documentElement.setAttribute("data-theme", "dark");
-    localStorage.setItem("theme", "dark"); //add this
+    localStorage.setItem("theme", "dark");
   } else {
     document.documentElement.setAttribute("data-theme", "light");
-    localStorage.setItem("theme", "light"); //add this
+    localStorage.setItem("theme", "light");
   }
 }
 
-// Save user preference on load
-
-const currentTheme = localStorage.getItem("theme")
-  ? localStorage.getItem("theme")
-  : null;
-
-if (currentTheme) {
-  document.documentElement.setAttribute("data-theme", currentTheme);
-
-  if (currentTheme === "dark") {
-    toggleSwitch.checked = true;
-  }
+if (toggleSwitch) {
+  toggleSwitch.addEventListener("change", switchTheme, false);
 }
 
-//Adding date
+// Restore saved theme, default to light
+const currentTheme = localStorage.getItem("theme") || "light";
+document.documentElement.setAttribute("data-theme", currentTheme);
+if (toggleSwitch) toggleSwitch.checked = currentTheme === "dark";
 
-let myDate = document.querySelector("#datee");
-
-const yes = new Date().getFullYear();
-myDate.innerHTML = yes;
+const myDate = document.querySelector("#datee");
+if (myDate) {
+  myDate.innerHTML = new Date().getFullYear();
+}

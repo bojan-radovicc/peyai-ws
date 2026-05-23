@@ -6,22 +6,18 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- Primary Meta Tags -->
-  <title>PeyAI</title>
+  <title>PeyAI | Software Engineering Studio</title>
   <meta property="twitter:card" content="summary_large_image" />
   <meta property="twitter:url" content="https://github.com/CommunityPro/portfolio-html" />
-  <meta property="twitter:title" content="Portfolio Template - Open source" />
+  <meta property="twitter:title" content="PeyAI - Software Engineering Studio" />
   <meta property="twitter:description"
-    content="Build or customize your portfolio website using this super easy template. Free to use if you are a member of the community or a contributor to this project" />
+    content="PeyAI builds practical and scalable software products, from AI-powered systems to modern web platforms." />
   <meta property="twitter:image"
     content="https://user-images.githubusercontent.com/62628408/150613011-b78a7f5a-0af1-4312-aab0-0022e7258693.png" />
 
   <!-- Link -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☁️</text></svg>" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon/android-chrome-192x192.png" />
-  <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon/android-chrome-512x512.png" />
-  <link rel="icon" type="image/x-icon" href="assets/favicon/favicon.ico" />
   <link rel="manifest" href="assets/favicon/site.webmanifest" />
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
     integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
@@ -30,166 +26,165 @@
 </head>
 
 <body>
-  <header id="hero">
-    <!-- Navbar -->
-    <nav class="navbar">
-      <div class="container">
-        <!-- Logo -->
-        <h1 id="logo">
-          <a href="https://github.com/CommunityPro/portfolio-html"><img src="./assets/logo.png" alt="Your Logo" /></a>
-        </h1>
-        <!-- Navbar links -->
-        <ul class="nav-menu">
-          <li><a class="nav-link" href="#about">ABOUT US</a></li>
-          <li><a class="nav-link" href="#projects">PROJECTS</a></li>
-          <li><a class="nav-link" href="#contact">CONTACT</a></li>
 
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <!-- Navbar links -->
+      <ul class="nav-menu">
+        <li><a class="nav-link" href="#about">About</a></li>
+        <li><a class="nav-link" href="#projects">Case Studies</a></li>
+        <li><a class="nav-link" href="#contact">Contact</a></li>
 
-          <!-- Hamburger menu -->
-        </ul>
+        <!-- Hamburger menu -->
+      </ul>
+      <div class="nav-actions">
+        <div class="theme-switch">
+          <input type="checkbox" id="theme-toggle-home" aria-label="Toggle dark mode" />
+          <label for="theme-toggle-home" class="theme-toggle-icons">
+            <i class="fas fa-sun sun"></i>
+            <i class="fas fa-moon moon"></i>
+          </label>
+        </div>
         <div class="hamburger">
           <span class="bar"></span>
           <span class="bar"></span>
           <span class="bar"></span>
         </div>
       </div>
-    </nav>
-
-    <!-- Logo and Title -->
-    <section class="header-container">
-      <div class="logo-container">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzu2AWTsbg5jEfW_2mu4jFnvU7oLtA8SoW2w&s"
-          alt="Pejak AI Logo" />
-        <span>PeyAI</span>
-      </div>
-      <p>We are PeyAI, a team of two passionate software engineers dedicated to delivering innovative and efficient
-        software solutions.</p>
-    </section>
-  </header>
+    </div>
+  </nav>
 
   <!-- About Us Section -->
   <section id="about" class="container">
-    <div class="division"></div>
-    <div class="content-text">
-      <h2>About Us</h2>
-      <div class="about-profiles">
-        <!-- Marko's Profile -->
-        <div class="profile">
+    <!-- Narrative + capabilities -->
+    <div class="about-text">
+      <h2 class="about-statement">We build Data &amp; AI<br>systems that ship.</h2>
+      <p class="about-body">Two software engineers covering the full journey &mdash; from raw data pipelines to deployed AI. We care about systems that are fast, reliable, and built to last in production.</p>
+      <ul class="about-capabilities">
+        <li>
+          <span class="cap-icon"><i class="fas fa-database"></i></span>
+          <div>
+            <strong>Data Engineering</strong>
+            <p>Pipelines, warehouses, and lakehouses that move and transform data reliably at any scale.</p>
+          </div>
+        </li>
+        <li>
+          <span class="cap-icon"><i class="fas fa-brain"></i></span>
+          <div>
+            <strong>AI &amp; Machine Learning</strong>
+            <p>From exploratory POCs to deployed models &mdash; practical AI that solves real problems.</p>
+          </div>
+        </li>
+        <li>
+          <span class="cap-icon"><i class="fas fa-rocket"></i></span>
+          <div>
+            <strong>Production Delivery</strong>
+            <p>Architecture, monitoring, and ongoing support for systems that go live and stay live.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Team -->
+    <div class="about-team">
+      <div class="profile-card">
+        <div class="profile-card-top">
           <img src="./assets/1657888486524.jpeg" alt="Marko's Picture" class="profile-image" />
-          <h3>Pejak</h3>
-          <p>Pe is a software engineer specializing in backend development, system architecture, and artificial
-            intelligence. He is passionate about solving complex problems and building scalable solutions.</p>
-          <a href="marko-details.html" class="btn btn-primary">RESUME <i class="fas fa-arrow-right"></i></a>
+          <div>
+            <h3>Marko Pejić</h3>
+            <p class="profile-role">Backend &amp; AI Systems</p>
+          </div>
         </div>
-        <!-- Bojan's Profile -->
-        <div class="profile">
+        <p class="profile-bio">Software engineer focused on backend architecture and AI systems. Turns hard problems into scalable software.</p>
+        <div class="profile-actions">
+          <a href="https://github.com/" target="_blank" rel="noopener" class="btn-icon" title="GitHub"><i class="fab fa-github"></i></a>
+          <a href="https://linkedin.com/" target="_blank" rel="noopener" class="btn-icon" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="marko-resume.pdf" download class="btn btn-primary btn-sm">Resume <i class="fas fa-download"></i></a>
+        </div>
+      </div>
+      <div class="profile-card">
+        <div class="profile-card-top">
           <img src="assets/Boysant.jpeg" alt="Bojan's Picture" class="profile-image" />
-          <h3>Boyant</h3>
-          <p>Bojant is a software engineer specializing in backend development, big kta, and distributed systems. He is
-            driven by a passion for designing efficient systems to solve complex challenges.
-          </p>
-          <a href="bojan-details.html" class="btn btn-primary">RESUME <i class="fas fa-arrow-right"></i></a>
+          <div>
+            <h3>Bojan Radović</h3>
+            <p class="profile-role">Big Data &amp; Distributed Systems</p>
+          </div>
+        </div>
+        <p class="profile-bio">Software engineer specialising in big data and distributed systems. Builds platforms that stay robust under real load.</p>
+        <div class="profile-actions">
+          <a href="https://github.com/" target="_blank" rel="noopener" class="btn-icon" title="GitHub"><i class="fab fa-github"></i></a>
+          <a href="https://linkedin.com/" target="_blank" rel="noopener" class="btn-icon" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="bojan-resume.pdf" download class="btn btn-primary btn-sm">Resume <i class="fas fa-download"></i></a>
         </div>
       </div>
     </div>
+
   </section>
 
   <!-- Projects Section -->
   <section id="projects" class="project-container container">
-    <div class="division"></div>
-    <div class="content-text">
-      <h2>Projects</h2>
-      <p>Explore our work and the solutions we've built for our clients.</p>
-    </div>
-
+    <h2 class="section-title">Case Studies</h2>
     <div class="project-grid">
       <!-- Project 1 -->
-      <div class="card">
+      <div class="card project-card">
         <h3>Inventory Management System</h3>
-        <p><strong>Problem:</strong> Inefficient tracking of inventory in warehouses.</p>
-        <p><strong>Solution:</strong> Developed a web-based system to manage inventory in real-time.</p>
-        <p><strong>Tech Stack:</strong> React, Node.js, MongoDB</p>
-        <a href="#" class="btn btn-primary">Learn More <i class="fas fa-arrow-right"></i></a>
+        <p>Inefficient tracking of inventory in warehouses.</p>
+        <a href="project-example.html" class="read-more">Read more...</a>
       </div>
       <!-- Project 2 -->
-      <div class="card">
+      <div class="card project-card">
         <h3>E-Learning Platform</h3>
-        <p><strong>Problem:</strong> Lack of accessible online education tools for students.</p>
-        <p><strong>Solution:</strong> Built a platform for hosting interactive courses and quizzes.</p>
-        <p><strong>Tech Stack:</strong> Angular, Firebase, Bootstrap</p>
-        <a href="#" class="btn btn-primary">Learn More <i class="fas fa-arrow-right"></i></a>
+        <p>Lack of accessible online education tools for students.</p>
+        <a href="project-example.html" class="read-more">Read more...</a>
       </div>
       <!-- Project 3 -->
-      <div class="card">
+      <div class="card project-card">
         <h3>Fitness Tracking App</h3>
-        <p><strong>Problem:</strong> Difficulty in tracking fitness goals and progress.</p>
-        <p><strong>Solution:</strong> Created a mobile app to log workouts and monitor progress.</p>
-        <p><strong>Tech Stack:</strong> Flutter, Firebase, REST APIs</p>
-        <a href="#" class="btn btn-primary">Learn More <i class="fas fa-arrow-right"></i></a>
+        <p>Difficulty in tracking fitness goals and progress.</p>
+        <a href="project-example.html" class="read-more">Read more...</a>
       </div>
       <!-- Project 4 -->
-      <div class="card">
+      <div class="card project-card">
         <h3>Online Marketplace</h3>
-        <p><strong>Problem:</strong> Limited options for small businesses to sell products online.</p>
-        <p><strong>Solution:</strong> Developed an e-commerce platform for small businesses.</p>
-        <p><strong>Tech Stack:</strong> Laravel, MySQL, Vue.js</p>
-        <a href="#" class="btn btn-primary">Learn More <i class="fas fa-arrow-right"></i></a>
+        <p>Limited options for small businesses to sell products online.</p>
+        <a href="project-example.html" class="read-more">Read more...</a>
       </div>
       <!-- Project 5 -->
-      <div class="card">
+      <div class="card project-card">
         <h3>Weather Forecasting Dashboard</h3>
-        <p><strong>Problem:</strong> Lack of accurate and user-friendly weather forecasting tools.</p>
-        <p><strong>Solution:</strong> Built a dashboard to display real-time weather data and forecasts.</p>
-        <p><strong>Tech Stack:</strong> Python, Flask, OpenWeather API</p>
-        <a href="#" class="btn btn-primary">Learn More <i class="fas fa-arrow-right"></i></a>
+        <p>Lack of accurate and user-friendly weather forecasting tools.</p>
+        <a href="project-example.html" class="read-more">Read more...</a>
       </div>
       <!-- Project 6 -->
-      <div class="card">
+      <div class="card project-card">
         <h3>Task Management Tool</h3>
-        <p><strong>Problem:</strong> Difficulty in managing team tasks and deadlines.</p>
-        <p><strong>Solution:</strong> Created a tool to assign, track, and manage tasks collaboratively.</p>
-        <p><strong>Tech Stack:</strong> React, Express.js, PostgreSQL</p>
-        <a href="#" class="btn btn-primary">Learn More <i class="fas fa-arrow-right"></i></a>
+        <p>Difficulty in managing team tasks and deadlines.</p>
+        <a href="project-example.html" class="read-more">Read more...</a>
       </div>
       <!-- Project 7 -->
-      <div class="card">
+      <div class="card project-card">
         <h3>Portfolio Website Builder</h3>
-        <p><strong>Problem:</strong> Lack of easy-to-use tools for creating personal portfolios.</p>
-        <p><strong>Solution:</strong> Built a drag-and-drop portfolio builder for users to showcase their work.</p>
-        <p><strong>Tech Stack:</strong> Vue.js, Firebase, Tailwind CSS</p>
-        <a href="#" class="btn btn-primary">Learn More <i class="fas fa-arrow-right"></i></a>
+        <p>Lack of easy-to-use tools for creating personal portfolios.</p>
+        <a href="project-example.html" class="read-more">Read more...</a>
       </div>
       <!-- Project 8 -->
-      <div class="card">
+      <div class="card project-card">
         <h3>Chat Application</h3>
-        <p><strong>Problem:</strong> Need for secure and real-time communication.</p>
-        <p><strong>Solution:</strong> Developed a chat app with end-to-end encryption and group chat features.</p>
-        <p><strong>Tech Stack:</strong> Node.js, Socket.IO, MongoDB</p>
-        <a href="#" class="btn btn-primary">Learn More <i class="fas fa-arrow-right"></i></a>
+        <p>Need for secure and real-time communication.</p>
+        <a href="project-example.html" class="read-more">Read more...</a>
       </div>
     </div>
   </section>
 
   <!-- Contact Section -->
   <section id="contact" class="container">
-    <div class="division"></div>
-    <div class="content-text">
-      <h2>Contact</h2>
-      <p>We'd love to hear from you! Reach out to us at:</p>
-      <a href="mailto:pejakai@example.com" class="btn btn-primary">pejakai@example.com</a>
+    <h2 class="section-title">Contact</h2>
+    <p class="contact-body">Do you have any questions? Have you read some of the Case Studies? Reach out to us if you want to work together.</p>
+    <div class="contact-emails">
+      <a href="mailto:rbojan2000@gmail.com" class="contact-email">rbojan2000@gmail.com</a>
+      <a href="mailto:markopejci@gmail.com" class="contact-email">markopejci@gmail.com</a>
     </div>
-    <form class="contact-form">
-      <div class="form-group">
-        <input type="text" id="name" name="name" placeholder="Your Name" required />
-      </div>
-      <div class="form-group">
-        <input type="email" id="email" name="email" placeholder="Your Email" required />
-      </div>
-      <div class="form-group">
-        <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
-      </div>
-      <button type="submit" class="btn btn-primary">Message</button>
-    </form>
   </section>
 
   <script src="js/script.js"></script>
