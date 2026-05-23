@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PeyAI | Inventory Management Case Study</title>
+  <title>PeyAI | Grit Marketing Data Platform Case Study</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x2601;&#xFE0F;</text></svg>" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png" />
   <link rel="manifest" href="assets/favicon/site.webmanifest" />
@@ -45,9 +45,9 @@
 
   <main class="container case-hero">
     <div class="content-text">
-      <h2 class="section-title">Inventory Management System</h2>
-      <p>A practical case study showing how PeyAI improved warehouse visibility, reduced manual errors,
-        and accelerated order processing.</p>
+      <h2 class="section-title">Grit Marketing Data Platform</h2>
+      <p>A case study of how PeyAI built a reliable ETL platform to centralize ad and lead data, enforce medallion data
+        quality layers, and power repeatable marketing reporting.</p>
       <a href="index.html#projects" class="btn btn-primary">Back to Projects <i class="fas fa-arrow-left"></i></a>
     </div>
 
@@ -55,39 +55,42 @@
       <article class="case-panel">
         <h3>Challenge</h3>
         <p>
-          The client managed three warehouses using spreadsheets and manual checks. Stock mismatches were common,
-          purchase planning was delayed, and operations lacked confidence in live inventory numbers.
+          Marketing performance and lead data were spread across multiple systems, each with different API formats and
+          extraction constraints. Teams needed one trusted pipeline to ingest daily data, standardize schemas, and
+          prepare analytics-ready datasets without manual spreadsheet work or inconsistent business logic.
         </p>
 
         <h3>Approach</h3>
         <ul>
-          <li>Built a centralized inventory API with strict transaction handling.</li>
-          <li>Added real-time stock updates through event-driven processing.</li>
-          <li>Implemented role-based dashboards for operators, managers, and admins.</li>
-          <li>Introduced low-stock alerts and auto-reorder suggestions.</li>
+          <li>Implemented source-specific extractors for Google Ads, Facebook Ads, LeadsHook, and LeadsPedia.</li>
+          <li>Built CLI-driven extraction and transformation jobs with configurable date windows and ingestion options.</li>
+          <li>Applied a medallion architecture (bronze, silver, gold) to separate raw, cleaned, and aggregated layers.</li>
+          <li>Used DuckDB for fast in-pipeline processing and PostgreSQL load integration for durable gold outputs.</li>
+          <li>Added test coverage around transformation and loading logic to improve release confidence.</li>
         </ul>
 
         <h3>Outcome</h3>
         <p>
-          The system improved inventory accuracy, shortened receiving-to-shelf workflows,
-          and gave leadership clear operational data for planning and forecasting.
+          The platform established a repeatable, auditable data workflow from source APIs to analytics-ready tables.
+          This reduced manual reconciliation effort, improved data consistency across reporting views, and created a
+          scalable base for future dashboards and decision support.
         </p>
 
         <div class="case-highlights">
           <div class="highlight">
-            <span class="meta-label">Inventory Accuracy</span>
-            <strong>+37%</strong>
-            <p>Fewer reconciliation issues after replacing manual tracking.</p>
+            <span class="meta-label">Sources Unified</span>
+            <strong>4 Data Sources</strong>
+            <p>Google Ads, Facebook Ads, LeadsHook, and LeadsPedia consolidated in one pipeline.</p>
           </div>
           <div class="highlight">
-            <span class="meta-label">Order Processing Time</span>
-            <strong>-28%</strong>
-            <p>Faster picking and dispatch via optimized stock visibility.</p>
+            <span class="meta-label">Data Architecture</span>
+            <strong>Bronze -> Silver -> Gold</strong>
+            <p>Clear layer boundaries for traceability, quality control, and analytics readiness.</p>
           </div>
           <div class="highlight">
-            <span class="meta-label">Stock-Out Events</span>
-            <strong>-41%</strong>
-            <p>Proactive alerts reduced unexpected shortages.</p>
+            <span class="meta-label">Execution Model</span>
+            <strong>CLI Orchestrated ETL</strong>
+            <p>Parameterized jobs support repeatable backfills, daily loads, and controlled transformations.</p>
           </div>
         </div>
       </article>
@@ -95,19 +98,19 @@
       <aside class="case-meta">
         <div class="meta-item">
           <span class="meta-label">Industry</span>
-          <p>Logistics and Warehousing</p>
+          <p>Marketing and Lead Generation</p>
         </div>
         <div class="meta-item">
           <span class="meta-label">Duration</span>
-          <p>12 Weeks</p>
+          <p>Iterative ETL development and ongoing operations</p>
         </div>
         <div class="meta-item">
           <span class="meta-label">Tech Stack</span>
-          <p>React, Node.js, MongoDB, Redis</p>
+          <p>Python, Click, DuckDB, PostgreSQL, Pandas, Pytest, Poetry, dotenv</p>
         </div>
         <div class="meta-item">
           <span class="meta-label">Scope</span>
-          <p>Architecture, API Design, Dashboard UX, Deployment</p>
+          <p>Data Ingestion, Transformation, Medallion Modeling, Data Loading, Quality Validation</p>
         </div>
       </aside>
     </div>

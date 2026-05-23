@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YourCompany | AI Contract Intelligence Platform Case Study</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x2601;&#xFE0F;</text></svg>" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png" />
+  <link rel="manifest" href="assets/favicon/site.webmanifest" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+    integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/utilities.css" />
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <span class="nav-brand">YourCompany</span>
+      <ul class="nav-menu">
+        <li><a class="nav-link" href="index.html#about">About</a></li>
+        <li><a class="nav-link" href="index.html#projects">Case Studies</a></li>
+        <li><a class="nav-link" href="index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <div class="theme-switch">
+          <input type="checkbox" id="theme-toggle-project" aria-label="Toggle dark mode" />
+          <label for="theme-toggle-project" class="theme-toggle-icons">
+            <i class="fas fa-sun sun"></i>
+            <i class="fas fa-moon moon"></i>
+          </label>
+        </div>
+        <div class="hamburger">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container case-hero">
+    <div class="content-text">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; flex-wrap:wrap;">
+        <h2 class="section-title" style="margin-bottom:0.5rem;">AI Contract Intelligence Platform</h2>
+        <a href="index.html#projects" class="btn btn-primary" aria-label="Back to projects">
+          <i class="fas fa-arrow-left"></i> Back to Projects
+        </a>
+      </div>
+
+      <p>
+        A technical case study on how two engineers built a production-ready backend platform that transforms raw contract
+        documents into structured legal intelligence using LLM pipelines, retrieval architecture, and data quality controls.
+      </p>
+    </div>
+
+    <div class="case-grid">
+      <article class="case-panel">
+        <section id="challenge">
+          <h3>Challenge</h3>
+          <p>
+            Contract review workflows were slow, inconsistent, and heavily manual. Legal and operations teams needed
+            fast answers to questions like obligations, payment terms, renewal windows, and risk clauses, but source
+            documents arrived in mixed formats with uneven structure and quality.
+          </p>
+          <p>
+            The technical bottleneck was converting unstructured legal text into reliable machine-usable outputs.
+            OCR noise, clause ambiguity, and context-heavy language made naive extraction brittle. We needed a system
+            that was accurate, explainable, and scalable across document types.
+          </p>
+        </section>
+
+        <section id="approach">
+          <h3>Approach</h3>
+          <ul>
+            <li><strong>Built a document ingestion pipeline</strong> to normalize PDFs/DOCs, run OCR where needed, and preserve structural metadata for downstream retrieval.</li>
+            <li><strong>Designed a hybrid extraction strategy</strong> combining deterministic parsing (dates, amounts, parties) with LLM-based semantic extraction for complex clauses.</li>
+            <li><strong>Implemented chunking + embeddings</strong> to create semantically searchable contract segments with citation-ready traceability.</li>
+            <li><strong>Used retrieval-augmented generation (RAG)</strong> so model answers are grounded in relevant contract snippets instead of free-form generation.</li>
+            <li><strong>Added validation and guardrails</strong> via schema checks, confidence scoring, and fallback prompts to reduce hallucinations and enforce output consistency.</li>
+          </ul>
+        </section>
+
+        <section id="architecture">
+          <h3>Architecture & Data Flow</h3>
+          <p>
+            We separated ingestion, intelligence, and delivery layers so each stage can be tested, tuned, and scaled independently.
+            This made experiments faster and production behavior more predictable.
+          </p>
+          <ul>
+            <li>Document intake -&gt; format normalization -&gt; OCR/text cleanup</li>
+            <li>Structural parsing -&gt; chunking -&gt; embedding generation</li>
+            <li>Vector + metadata indexing -&gt; retrieval pipeline</li>
+            <li>LLM extraction and Q&amp;A -&gt; schema validation -&gt; confidence scoring</li>
+            <li>Persisted outputs -&gt; audit trails -&gt; API delivery for product workflows</li>
+          </ul>
+        </section>
+
+        <section id="technical-decisions">
+          <h3>Technical Decisions & Reasoning</h3>
+
+          <h4>1) Why hybrid extraction instead of pure LLM prompting?</h4>
+          <p>
+            Fully prompt-based systems are flexible but unstable for repeated, production-scale extraction. We split logic:
+            deterministic extractors handle high-precision fields, while LLMs handle contextual legal semantics. This lowers
+            variance and improves repeatability across document batches.
+          </p>
+
+          <h4>2) Why RAG with citation context?</h4>
+          <p>
+            Legal users need evidence, not just answers. Retrieval-first grounding lets us return responses tied to concrete
+            source passages. Every key output includes referenced text spans, enabling verification and trust in model decisions.
+          </p>
+
+          <h4>3) Managing quality under real-world noisy data</h4>
+          <p>
+            Input quality varies dramatically. We introduced a multi-step quality layer:
+          </p>
+          <ul>
+            <li>OCR confidence thresholds and reprocessing rules,</li>
+            <li>chunk-level anomaly checks (missing sections, malformed text),</li>
+            <li>post-extraction schema validation with automatic retry/fallback prompts.</li>
+          </ul>
+          <p>
+            This reduced silent failures and made low-confidence outputs visible for human review.
+          </p>
+
+          <h4>4) Why asynchronous job orchestration?</h4>
+          <p>
+            Contract analysis involves expensive inference and indexing operations. We used asynchronous workers and
+            queue-based processing to keep ingestion responsive while handling large document sets. This enables reliable
+            scaling without blocking user-facing workflows.
+          </p>
+        </section>
+
+        <section id="outcome">
+          <h3>Outcome</h3>
+          <p>
+            The platform replaced manual-first review with a repeatable AI + data pipeline that generates structured contract
+            intelligence, traceable evidence, and risk-focused summaries. Teams now move from raw documents to actionable insights
+            in minutes rather than hours.
+          </p>
+
+          <div class="case-highlights">
+            <div class="highlight">
+              <span class="meta-label">Processing Throughput</span>
+              <strong>+4.2x</strong>
+              <p>Higher document processing volume via async pipelines, batched inference, and indexed retrieval.</p>
+            </div>
+            <div class="highlight">
+              <span class="meta-label">Extraction Consistency</span>
+              <strong>+31%</strong>
+              <p>More stable field-level outputs through hybrid parsing, schema checks, and guardrail retries.</p>
+            </div>
+            <div class="highlight">
+              <span class="meta-label">Review Time Reduction</span>
+              <strong>-63%</strong>
+              <p>Faster first-pass legal analysis with grounded Q&amp;A and clause-level evidence references.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="next-steps">
+          <h3>Next Steps</h3>
+          <ul>
+            <li>Active-learning loop from reviewer corrections to improve prompt templates and extraction accuracy.</li>
+            <li>Domain-tuned evaluation suite with clause-level precision/recall and regression benchmarks.</li>
+            <li>Policy-aware risk scoring models per contract type (vendor, employment, MSA, NDA).</li>
+          </ul>
+        </section>
+
+        <div style="margin-top:2rem;">
+          <a href="index.html#projects" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back to All Case Studies
+          </a>
+        </div>
+      </article>
+
+      <aside class="case-meta">
+        <div class="meta-item">
+          <span class="meta-label">Table of Contents</span>
+          <p style="margin-bottom:0.5rem;"><a href="#challenge">Challenge</a></p>
+          <p style="margin-bottom:0.5rem;"><a href="#approach">Approach</a></p>
+          <p style="margin-bottom:0.5rem;"><a href="#architecture">Architecture &amp; Data Flow</a></p>
+          <p style="margin-bottom:0.5rem;"><a href="#technical-decisions">Technical Decisions</a></p>
+          <p style="margin-bottom:0.5rem;"><a href="#outcome">Outcome</a></p>
+          <p style="margin-bottom:0;"><a href="#next-steps">Next Steps</a></p>
+        </div>
+
+        <div class="meta-item">
+          <span class="meta-label">Industry</span>
+          <p>LegalTech / Contract Operations</p>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Duration</span>
+          <p>Initial MVP in 6 weeks, followed by iterative hardening</p>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Tech Stack</span>
+          <p>Python, FastAPI, Celery, PostgreSQL, Redis, OCR, LLM APIs, Embeddings, Vector DB, Pydantic, Pytest</p>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Scope</span>
+          <p>Ingestion Pipelines, NLP/LLM Extraction, RAG, Validation, Evaluation, API Delivery</p>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <script src="js/script.js"></script>
+</body>
+
+</html>

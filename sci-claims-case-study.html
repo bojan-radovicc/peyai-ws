@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PeyAI | Scientific Claims Intelligence Pipeline Case Study</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x2601;&#xFE0F;</text></svg>" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png" />
+  <link rel="manifest" href="assets/favicon/site.webmanifest" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+    integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/utilities.css" />
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <span class="nav-brand">PeyAI</span>
+      <ul class="nav-menu">
+        <li><a class="nav-link" href="index.html#about">About</a></li>
+        <li><a class="nav-link" href="index.html#projects">Case Studies</a></li>
+        <li><a class="nav-link" href="index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <div class="theme-switch">
+          <input type="checkbox" id="theme-toggle-project" aria-label="Toggle dark mode" />
+          <label for="theme-toggle-project" class="theme-toggle-icons">
+            <i class="fas fa-sun sun"></i>
+            <i class="fas fa-moon moon"></i>
+          </label>
+        </div>
+        <div class="hamburger">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container case-hero">
+    <div class="content-text">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; flex-wrap:wrap;">
+        <h2 class="section-title" style="margin-bottom:0.5rem;">Scientific Claims Intelligence Pipeline</h2>
+        <a href="index.html#projects" class="btn btn-primary" aria-label="Back to projects">
+          <i class="fas fa-arrow-left"></i> Back to Projects
+        </a>
+      </div>
+
+      <p>
+        A backend-first AI case study on building a production pipeline that transforms raw scientific PDFs into
+        structured knowledge units, verifiable claims, semantic relations, and queryable claim graphs.
+      </p>
+    </div>
+
+    <div class="case-grid">
+      <article class="case-panel">
+        <section id="challenge">
+          <h3>Challenge</h3>
+          <p>
+            Scientific evidence is locked in long-form PDFs with inconsistent structure, mixed writing styles,
+            and domain-specific language. Manual extraction is slow, non-repeatable, and difficult to scale.
+          </p>
+          <p>
+            The core engineering challenge was to make AI extraction reliable under production constraints:
+            multi-step dependencies, LLM latency/timeouts, partial failures, and the need for deterministic,
+            machine-consumable outputs rather than free-form text.
+          </p>
+        </section>
+
+        <section id="approach">
+          <h3>Approach</h3>
+          <ul>
+            <li><strong>Designed a serverless orchestration workflow</strong> where each stage is a dedicated Lambda job (OCR, knowledge units, claims, relations, graph).</li>
+            <li><strong>Standardized intermediate artifacts</strong> in DynamoDB to persist stage outputs and make every step idempotent and resumable.</li>
+            <li><strong>Implemented typed LLM extraction</strong> with structured schemas to reduce hallucinations and enforce predictable JSON outputs.</li>
+            <li><strong>Added chunk-based processing</strong> so document sets can run in controlled batches with bounded runtime per job.</li>
+            <li><strong>Separated semantic phases</strong> (units -&gt; claims -&gt; embeddings -&gt; clustering) to improve observability and model tuning.</li>
+          </ul>
+        </section>
+
+        <section id="architecture">
+          <h3>Architecture & Data Flow</h3>
+          <p>
+            We structured the system as a data pipeline, not a monolithic prompt. Every stage writes durable state,
+            enabling retries, auditability, and downstream analytics.
+          </p>
+          <ul>
+            <li>Input PDFs in object storage -&gt; OCR text extraction</li>
+            <li>OCR output -&gt; relevant paragraph filtering -&gt; knowledge unit generation</li>
+            <li>Knowledge units -&gt; typed scientific claim extraction</li>
+            <li>Claims -&gt; embedding + relation clustering -&gt; final claims with relations</li>
+            <li>Final claims -&gt; graph construction -&gt; semantic query endpoint + subgraph retrieval</li>
+          </ul>
+        </section>
+
+        <section id="technical-decisions">
+          <h3>Technical Decisions & Reasoning</h3>
+
+          <h4>1) Why multi-stage AI instead of one large prompt?</h4>
+          <p>
+            A single prompt over full papers is expensive, hard to debug, and unstable across document types.
+            We decomposed extraction into specialized tasks with typed outputs, which improved reproducibility and
+            made failure handling stage-specific.
+          </p>
+
+          <h4>2) Why schema-driven extraction?</h4>
+          <p>
+            Portfolio demos often stop at "LLM generated text." We needed production-grade data products.
+            By using typed predictors and domain models, each response is validated before storage, enabling:
+          </p>
+          <ul>
+            <li>consistent downstream processing,</li>
+            <li>safer retries and partial reprocessing,</li>
+            <li>clean interfaces between AI and non-AI backend services.</li>
+          </ul>
+
+          <h4>3) How we handled runtime limits and reliability</h4>
+          <p>
+            Lambda runtime and external model latency create real operational risk. We introduced explicit job timeouts,
+            state tracking, and asynchronous invocation chaining. If a chunk fails, workflow state captures error context,
+            increments failure counters, and continues aggregation logic safely.
+          </p>
+
+          <h4>4) Why graph-based retrieval after claim extraction?</h4>
+          <p>
+            Extracted claims are more valuable when connected. We model claims and relations as a graph so users can
+            query semantically similar nodes and inspect immediate neighborhoods (subgraphs). This turns static extraction
+            into explainable knowledge navigation.
+          </p>
+
+          <h4>5) Data persistence strategy</h4>
+          <p>
+            We split storage by responsibility: metadata/progress, final claim outputs, graph snapshots, and query
+            results. This separation improves read patterns, keeps operational tables focused, and supports analytics on
+            pipeline quality over time.
+          </p>
+        </section>
+
+        <section id="outcome">
+          <h3>Outcome</h3>
+          <p>
+            The result is a production-ready AI data pipeline that converts unstructured research documents into
+            structured, queryable scientific knowledge. Instead of one-off prompt outputs, the system delivers
+            trackable workflow states, reusable intermediate artifacts, and graph-powered retrieval.
+          </p>
+
+          <div class="case-highlights">
+            <div class="highlight">
+              <span class="meta-label">Automation Coverage</span>
+              <strong>End-to-end</strong>
+              <p>From PDF ingestion to graph query without manual intervention between stages.</p>
+            </div>
+            <div class="highlight">
+              <span class="meta-label">Operational Reliability</span>
+              <strong>State-driven</strong>
+              <p>Chunk-level progress tracking, timeout guards, and failure accounting for resilient processing.</p>
+            </div>
+            <div class="highlight">
+              <span class="meta-label">Processing Performance</span>
+              <strong>~20-30 min</strong>
+              <p>Typical full-workflow completion window for multi-file runs under current batching strategy.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="next-steps">
+          <h3>Next Steps</h3>
+          <ul>
+            <li>Introduce adaptive batch sizing based on document length and OCR complexity.</li>
+            <li>Add automated extraction-quality evaluation (precision/consistency checks on sampled claims).</li>
+            <li>Implement embedding versioning + reindex workflows for safer model upgrades.</li>
+            <li>Add confidence scoring and provenance links from each claim back to source paragraph spans.</li>
+          </ul>
+        </section>
+
+        <div style="margin-top:2rem;">
+          <a href="index.html#projects" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back to All Case Studies
+          </a>
+        </div>
+      </article>
+
+      <aside class="case-meta">
+        <div class="meta-item">
+          <span class="meta-label">Table of Contents</span>
+          <p style="margin-bottom:0.5rem;"><a href="#challenge">Challenge</a></p>
+          <p style="margin-bottom:0.5rem;"><a href="#approach">Approach</a></p>
+          <p style="margin-bottom:0.5rem;"><a href="#architecture">Architecture & Data Flow</a></p>
+          <p style="margin-bottom:0.5rem;"><a href="#technical-decisions">Technical Decisions</a></p>
+          <p style="margin-bottom:0.5rem;"><a href="#outcome">Outcome</a></p>
+          <p style="margin-bottom:0;"><a href="#next-steps">Next Steps</a></p>
+        </div>
+
+        <div class="meta-item">
+          <span class="meta-label">Industry</span>
+          <p>AI for Scientific Research / Knowledge Intelligence</p>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Duration</span>
+          <p>Iterative multi-week build with production workflow hardening</p>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Tech Stack</span>
+          <p>Python, AWS Lambda, DynamoDB, S3, DSPy, Embeddings, Clustering, Graph Modeling</p>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Scope</span>
+          <p>LLM Pipeline Design, Data Modeling, Workflow Orchestration, Reliability Engineering, Semantic Retrieval</p>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <script src="js/script.js"></script>
+</body>
+
+</html>

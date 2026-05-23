@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PeyAI | Vehicle Routing Optimization Engine Case Study</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x2601;&#xFE0F;</text></svg>" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png" />
+  <link rel="manifest" href="assets/favicon/site.webmanifest" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+    integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/utilities.css" />
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <span class="nav-brand">PeyAI</span>
+      <ul class="nav-menu">
+        <li><a class="nav-link" href="index.html#about">About</a></li>
+        <li><a class="nav-link" href="index.html#projects">Case Studies</a></li>
+        <li><a class="nav-link" href="index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <div class="theme-switch">
+          <input type="checkbox" id="theme-toggle-project" aria-label="Toggle dark mode" />
+          <label for="theme-toggle-project" class="theme-toggle-icons">
+            <i class="fas fa-sun sun"></i>
+            <i class="fas fa-moon moon"></i>
+          </label>
+        </div>
+        <div class="hamburger">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container case-hero">
+    <div class="content-text">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; flex-wrap:wrap;">
+        <h2 class="section-title" style="margin-bottom:0.5rem;">Vehicle Routing Optimization Engine</h2>
+        <a href="index.html#projects" class="btn btn-primary" aria-label="Back to projects">
+          <i class="fas fa-arrow-left"></i> Back to Projects
+        </a>
+      </div>
+
+      <p>
+        A deep technical case study on how we built a production-ready routing engine to turn noisy weekly logistics
+        inputs into feasible, cost-aware delivery plans with measurable efficiency gains.
+      </p>
+    </div>
+
+    <div class="case-grid">
+      <article class="case-panel">
+        <section id="challenge">
+          <h3>Challenge</h3>
+          <p>
+            Weekly route planning started from raw operational exports that were difficult to optimize consistently.
+            Manual planning created variability in route quality, overused certain truck types, and made deadline
+            feasibility hard to validate at scale.
+          </p>
+          <p>
+            The key technical bottleneck was geospatial computation: once you have hundreds of stops, pairwise
+            distance/time lookups grow quickly and API calls become expensive and rate-limited. We needed an approach
+            that remained accurate, scalable, and financially sustainable.
+          </p>
+        </section>
+
+        <section id="approach">
+          <h3>Approach</h3>
+          <ul>
+            <li><strong>Built a CLI orchestration pipeline</strong> to run end-to-end jobs (transform raw data, build geo lookup, optimize, calculate stats, generate reports, export routes).</li>
+            <li><strong>Separated concerns between map services</strong>: ORS for matrix/distance fidelity and OSRM for route geometry visualization.</li>
+            <li><strong>Implemented cache-first geo lookup</strong> persisted in CSV so expensive pair computations are done once and reused across all optimizer iterations.</li>
+            <li><strong>Designed a VRP ALNS solver</strong> with strict capacity and deadline feasibility rules, plus greedy repair for practical convergence.</li>
+            <li><strong>Made optimization business-aware</strong> by using route money-cost objective (tiered pricing, stop-based costs, additional route fees), not only distance minimization.</li>
+          </ul>
+        </section>
+
+        <section id="architecture">
+          <h3>Architecture & Data Flow</h3>
+          <p>
+            We process raw weekly inputs into structured artifacts first, then optimize from standardized domain models.
+            This reduced edge-case handling inside the solver and made the system testable in layers.
+          </p>
+          <ul>
+            <li>Raw route dump -&gt; structured weekly files</li>
+            <li>Unique stops -&gt; geo pair generation -&gt; distance/duration lookup cache</li>
+            <li>Weekly optimization via VRP ALNS -&gt; optimized routes in source-of-truth JSON</li>
+            <li>Stats + cost calculation -&gt; weekly KPI outputs</li>
+            <li>Map and report generation -&gt; operational review + Excel export</li>
+          </ul>
+        </section>
+
+        <section id="technical-decisions">
+          <h3>Technical Decisions & Reasoning</h3>
+
+          <h4>1) Why ORS + OSRM instead of one provider?</h4>
+          <p>
+            We wanted robust route metrics for optimization and lightweight geometry rendering for reporting.
+            ORS gives strong matrix capabilities for computational steps, while OSRM is practical and cost-effective
+            for generating polyline geometry in map views. This split keeps optimization quality high without making
+            every visual operation paid-API dependent.
+          </p>
+
+          <h4>2) Handling combinatorial growth in geo pairs</h4>
+          <p>
+            Distances between many stops can explode toward O(n²) relationships. Recomputing these pairs every run is
+            not feasible. We solved this with:
+          </p>
+          <ul>
+            <li>deduplication of destination pins before matrix requests,</li>
+            <li>batch matrix requests instead of one-call-per-pair,</li>
+            <li>serialized lookup caching so future runs are mostly local reads.</li>
+          </ul>
+
+          <h4>3) Cost control under API limits</h4>
+          <p>
+            To avoid unnecessary premium usage, our strategy is to minimize API calls first (cache + batching), then
+            distribute request pressure safely. A practical extension is <strong>API-key round robin</strong> across a
+            managed key list, with per-key throttling and backoff. This keeps request volume smooth, reduces sudden
+            quota exhaustion, and delays the need for higher paid tiers.
+          </p>
+
+          <h4>4) Why ALNS for optimization?</h4>
+          <p>
+            ALNS gave us a strong trade-off between implementation complexity and performance for multi-truck VRP.
+            The destroy/repair pattern is flexible enough for real constraints, and with fast feasibility checks
+            (capacity + deadline-aware insertion), it scales better than naive exhaustive search while still producing
+            high-quality weekly plans.
+          </p>
+        </section>
+
+        <section id="outcome">
+          <h3>Outcome</h3>
+          <p>
+            The result is a repeatable optimization engine that replaced ad-hoc planning with deterministic,
+            explainable, and measurable routing decisions. Across benchmark weeks, optimized solutions consistently
+            improved key operational and cost metrics versus manual baselines.
+          </p>
+
+          <div class="case-highlights">
+            <div class="highlight">
+              <span class="meta-label">Total Route Distance</span>
+              <strong>-30.1%</strong>
+              <p>Lower cumulative distance across benchmark weeks with optimized stop sequencing and assignments.</p>
+            </div>
+            <div class="highlight">
+              <span class="meta-label">Total Route Time</span>
+              <strong>-28.7%</strong>
+              <p>Reduced driving time while preserving route feasibility under real delivery deadlines.</p>
+            </div>
+            <div class="highlight">
+              <span class="meta-label">Estimated Routing Cost</span>
+              <strong>-29.3%</strong>
+              <p>Modeled cost reduction using tier-aware route pricing and fleet-aware planning decisions.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="next-steps">
+          <h3>Next Steps</h3>
+          <ul>
+            <li>Adaptive key rotation policy with health checks and automatic cooldown handling.</li>
+            <li>Incremental geo-cache updates for new stops only (instead of broad rebuilds).</li>
+            <li>Scenario-based optimization (cost-first, time-first, SLA-first profiles).</li>
+          </ul>
+        </section>
+
+        <div style="margin-top:2rem;">
+          <a href="index.html#projects" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back to All Case Studies
+          </a>
+        </div>
+      </article>
+
+      <aside class="case-meta">
+        <!-- TOC first -->
+        <div class="meta-item">
+          <span class="meta-label">Table of Contents</span>
+          <p style="margin-bottom:0.5rem;"><a href="#challenge">Challenge</a></p>
+          <p style="margin-bottom:0.5rem;"><a href="#approach">Approach</a></p>
+          <p style="margin-bottom:0.5rem;"><a href="#architecture">Architecture & Data Flow</a></p>
+          <p style="margin-bottom:0.5rem;"><a href="#technical-decisions">Technical Decisions</a></p>
+          <p style="margin-bottom:0.5rem;"><a href="#outcome">Outcome</a></p>
+          <p style="margin-bottom:0;"><a href="#next-steps">Next Steps</a></p>
+        </div>
+
+        <div class="meta-item">
+          <span class="meta-label">Industry</span>
+          <p>Logistics and Distribution</p>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Duration</span>
+          <p>Multi-week rollout with iterative optimization cycles</p>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Tech Stack</span>
+          <p>Python, Click, Pandas, ORS, OSRM, Folium, Jinja2, OpenPyXL, Pytest</p>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Scope</span>
+          <p>Data Processing, VRP Algorithm Design, Geo Caching, Cost Modeling, Reporting</p>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <script src="js/script.js"></script>
+</body>
+
+</html>
