@@ -121,7 +121,7 @@ h2::selection {
   transform: translate(-50%, -50%);
 }
 
-.theme-toggle-icons .sun {
+.theme-toggle-icons .moon {
   opacity: 1;
 }
 
@@ -129,11 +129,11 @@ h2::selection {
   color: var(--primary-color);
 }
 
-.theme-switch input:checked+.theme-toggle-icons .sun {
+.theme-switch input:checked+.theme-toggle-icons .moon {
   opacity: 0;
 }
 
-.theme-switch input:checked+.theme-toggle-icons .moon {
+.theme-switch input:checked+.theme-toggle-icons .sun {
   opacity: 1;
 }
 

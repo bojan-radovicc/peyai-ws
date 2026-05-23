@@ -53,8 +53,10 @@ if (toggleSwitch) {
   toggleSwitch.addEventListener("change", switchTheme, false);
 }
 
-// Restore saved theme, default to light
-const currentTheme = localStorage.getItem("theme") || "light";
+// Restore saved theme, fall back to system preference
+const savedTheme = localStorage.getItem("theme");
+const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+const currentTheme = savedTheme || (systemDark ? "dark" : "light");
 document.documentElement.setAttribute("data-theme", currentTheme);
 if (toggleSwitch) toggleSwitch.checked = currentTheme === "dark";
 
