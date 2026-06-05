@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PeyAI | Multi-Agent Cybersecurity Lab Authoring Case Study</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x2601;&#xFE0F;</text></svg>" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png" />
+  <link rel="manifest" href="assets/favicon/site.webmanifest" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+    integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/utilities.css" />
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <span class="nav-brand">Pey<span>AI</span></span>
+      <ul class="nav-menu">
+        <li><a class="nav-link" href="index.html#about">About</a></li>
+        <li><a class="nav-link" href="index.html#services">Services</a></li>
+        <li><a class="nav-link" href="index.html#projects">Work</a></li>
+        <li><a class="nav-link" href="index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <div class="theme-switch">
+          <input type="checkbox" id="theme-toggle-project" aria-label="Toggle dark mode" />
+          <label for="theme-toggle-project" class="theme-toggle-icons">
+            <i class="fas fa-sun sun"></i>
+            <i class="fas fa-moon moon"></i>
+          </label>
+        </div>
+        <div class="hamburger">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container case-hero">
+    <div class="content-text">
+      <h2 class="section-title">Multi-Agent Cybersecurity Lab Authoring</h2>
+
+      <p>
+        A technical case study on building a multi-agent AI platform that automates the end-to-end authoring of
+        cybersecurity training labs — from learning objectives to production-ready content, VM configurations,
+        static challenge sites, and interactive web applications.
+      </p>
+    </div>
+
+    <div class="case-grid">
+      <article class="case-panel">
+        <div class="project-overview">
+          <div class="overview-item">
+            <span class="overview-label">Industry</span>
+            <span class="overview-value">Cybersecurity Education / EdTech</span>
+          </div>
+          <div class="overview-item">
+            <span class="overview-label">Scope</span>
+            <span class="overview-value">Multi-Agent Orchestration, Content Generation, Infrastructure as Code, Web App Generation, Validation, Human-in-the-Loop Review</span>
+          </div>
+          <div class="overview-item overview-wide">
+            <span class="overview-label">Tech Stack</span>
+            <span class="overview-value">Python, Anthropic Claude API, AWS Step Functions, Lambda, S3, FastAPI, PostgreSQL, React, Docker, Pydantic, Pytest</span>
+          </div>
+        </div>
+
+        <section id="challenge">
+          <h3>Challenge</h3>
+          <p>
+            Creating high-quality cybersecurity training labs is time-consuming and requires coordination across
+            multiple disciplines: curriculum design, infrastructure provisioning, web development, and security
+            tooling. A single lab involves writing scenario narratives, configuring vulnerable environments,
+            building challenge sites, and validating that every component aligns with the learning objective.
+          </p>
+          <p>
+            Manual authoring doesn't scale with the pace of new threat vectors and curriculum needs. Labs
+            produced by different authors varied significantly in structure and quality, and updating existing
+            content required touching multiple systems with no shared state between them.
+          </p>
+        </section>
+
+        <section id="approach">
+          <h3>Approach</h3>
+          <ul>
+            <li><strong>Designed a multi-agent orchestration system</strong> where a planner agent decomposes a learning objective into a structured task graph for downstream specialist agents.</li>
+            <li><strong>Built a curriculum agent</strong> that generates scenario narratives, step-by-step walkthroughs, hints, and solution guides with consistent pedagogical structure.</li>
+            <li><strong>Built an infrastructure agent</strong> that produces VM configurations: network topology, installed packages, service bindings, and pre-seeded flags for capture-the-flag scenarios.</li>
+            <li><strong>Built a web agent</strong> that generates static challenge sites and interactive web components (login forms, vulnerable endpoints, admin panels) matched to each lab scenario.</li>
+            <li><strong>Added a validation agent</strong> that tests each artifact against the original objective, checks for internal consistency, and flags gaps before human review.</li>
+            <li><strong>Implemented a human-in-the-loop checkpoint</strong> so instructors can approve, edit, or reject any stage output before the lab goes live.</li>
+          </ul>
+        </section>
+
+        <section id="architecture">
+          <h3>Architecture & Data Flow</h3>
+          <p>
+            We structured the system as a directed agent graph, not a sequential pipeline. Agents that don't
+            depend on each other run in parallel, which significantly reduces total authoring latency.
+            All intermediate outputs are stored as durable artifacts, making every step resumable and auditable.
+          </p>
+          <ul>
+            <li>Instructor submits learning objective -&gt; planner agent produces task graph</li>
+            <li>Curriculum agent + infrastructure agent run in parallel on their respective subtasks</li>
+            <li>Web agent consumes curriculum output to generate scenario-matched challenge sites</li>
+            <li>Validation agent runs cross-artifact checks: scenario consistency, flag placement, objective coverage</li>
+            <li>Human review gateway -&gt; approved artifacts packaged and deployed to lab delivery system</li>
+            <li>Deployed labs served via CDN-backed static hosting with isolated VM environments per learner</li>
+          </ul>
+        </section>
+
+        <section id="technical-decisions">
+          <h3>Technical Decisions & Reasoning</h3>
+
+          <h4>1) Why multi-agent instead of a single large prompt?</h4>
+          <p>
+            A single prompt over the full lab specification produces outputs that are hard to validate, debug,
+            and iterate on. Specialized agents with bounded scopes produce smaller, typed outputs that can be
+            checked against schema, tested independently, and retried without rerunning the whole workflow.
+            Agent specialization also improves output quality: each agent is prompted and tuned for one task.
+          </p>
+
+          <h4>2) How we handled inter-agent state and shared context</h4>
+          <p>
+            Each agent reads from a shared artifact store (object storage) keyed by lab ID and stage name.
+            Agents receive their inputs as structured documents — not raw chat history — which keeps context
+            focused and reduces prompt bloat across long workflows. The planner produces a manifest that
+            acts as the ground truth for what each downstream agent needs to produce.
+          </p>
+
+          <h4>3) Managing partial failures in the agent graph</h4>
+          <p>
+            Agent failures are isolated: if the web agent fails, curriculum and infrastructure outputs are
+            preserved and the web agent can be retried without restarting the full graph. We track per-stage
+            completion state in a metadata table, enabling selective reruns and progress inspection without
+            losing work. Failure reasons are logged with enough context for debugging.
+          </p>
+
+          <h4>4) Validation strategy: automated checks + human review</h4>
+          <p>
+            Automated checks cover structural completeness (required fields, valid flag formats, reachable
+            service ports) and objective coverage (does the curriculum mention each required concept?). These
+            catch most mechanical errors before human review. Human review focuses on accuracy, pedagogical
+            soundness, and scenario realism — tasks where instructor judgment adds the most value.
+          </p>
+
+          <h4>5) Reproducibility and lab versioning</h4>
+          <p>
+            Every lab generation run is logged with the exact model versions, prompts, and parameters used.
+            Lab artifacts are versioned in object storage, so instructors can compare outputs across runs
+            and roll back to previous versions without data loss. This makes the authoring process
+            auditable and supports iterative improvement of prompt templates over time.
+          </p>
+        </section>
+
+        <section id="outcome">
+          <h3>Outcome</h3>
+          <p>
+            The platform replaced a multi-day, multi-person manual authoring process with an automated
+            workflow that produces a complete lab draft in under two hours. Human review time dropped
+            significantly because validation agents catch structural issues before instructor review.
+            The system now supports consistent lab production across multiple cybersecurity domains.
+          </p>
+
+          <div class="case-highlights">
+            <div class="highlight">
+              <span class="meta-label">Authoring Time</span>
+              <strong>-71%</strong>
+              <p>Reduced time from objective to ready-for-review lab draft via parallel agent execution.</p>
+            </div>
+            <div class="highlight">
+              <span class="meta-label">Content Coverage</span>
+              <strong>3x</strong>
+              <p>More lab topics produced per month with the same instructor headcount.</p>
+            </div>
+            <div class="highlight">
+              <span class="meta-label">Structural Consistency</span>
+              <strong>+42%</strong>
+              <p>Higher instructor satisfaction scores on lab structure and scenario coherence.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="next-steps">
+          <h3>Next Steps</h3>
+          <ul>
+            <li>Active-learning loop: use instructor edits to improve prompt templates and agent behavior over time.</li>
+            <li>Adaptive difficulty: generate lab variants at beginner, intermediate, and advanced levels from a single objective.</li>
+            <li>Lab freshness scoring: automatically detect when a lab's scenario becomes outdated relative to current threat intelligence.</li>
+            <li>Learner telemetry integration: feed completion rates and stuck-point data back into curriculum agent to improve hint quality.</li>
+          </ul>
+        </section>
+
+      </article>
+
+      <aside class="case-meta">
+        <div class="meta-item">
+          <span class="meta-label">Contents</span>
+          <nav class="toc-nav">
+            <a href="#challenge">Challenge</a>
+            <a href="#approach">Approach</a>
+            <a href="#architecture">Architecture &amp; Data Flow</a>
+            <a href="#technical-decisions">Technical Decisions</a>
+            <a href="#outcome">Outcome</a>
+            <a href="#next-steps">Next Steps</a>
+          </nav>
+        </div>
+        <a href="index.html#projects" class="back-link">
+          <i class="fas fa-arrow-left"></i> Back to Work
+        </a>
+      </aside>
+    </div>
+  </main>
+
+  <script src="js/script.js"></script>
+</body>
+
+</html>

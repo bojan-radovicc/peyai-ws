@@ -20,10 +20,11 @@
   <!-- Navbar -->
   <nav class="navbar">
     <div class="container">
-      <span class="nav-brand">PeyAI</span>
+      <span class="nav-brand">Pey<span>AI</span></span>
       <ul class="nav-menu">
         <li><a class="nav-link" href="index.html#about">About</a></li>
-        <li><a class="nav-link" href="index.html#projects">Case Studies</a></li>
+        <li><a class="nav-link" href="index.html#services">Services</a></li>
+        <li><a class="nav-link" href="index.html#projects">Work</a></li>
         <li><a class="nav-link" href="index.html#contact">Contact</a></li>
       </ul>
       <div class="nav-actions">
@@ -48,19 +49,33 @@
       <h2 class="section-title">Grit Marketing Data Platform</h2>
       <p>A case study of how PeyAI built a reliable ETL platform to centralize ad and lead data, enforce medallion data
         quality layers, and power repeatable marketing reporting.</p>
-      <a href="index.html#projects" class="btn btn-primary">Back to Projects <i class="fas fa-arrow-left"></i></a>
     </div>
 
     <div class="case-grid">
       <article class="case-panel">
-        <h3>Challenge</h3>
+        <div class="project-overview">
+          <div class="overview-item">
+            <span class="overview-label">Industry</span>
+            <span class="overview-value">Marketing and Lead Generation</span>
+          </div>
+          <div class="overview-item">
+            <span class="overview-label">Scope</span>
+            <span class="overview-value">Data Ingestion, Transformation, Medallion Modeling, Data Loading, Quality Validation</span>
+          </div>
+          <div class="overview-item overview-wide">
+            <span class="overview-label">Tech Stack</span>
+            <span class="overview-value">Python, Click, DuckDB, PostgreSQL, Pandas, Pytest, Poetry, dotenv</span>
+          </div>
+        </div>
+
+        <h3 id="challenge">Challenge</h3>
         <p>
           Marketing performance and lead data were spread across multiple systems, each with different API formats and
           extraction constraints. Teams needed one trusted pipeline to ingest daily data, standardize schemas, and
           prepare analytics-ready datasets without manual spreadsheet work or inconsistent business logic.
         </p>
 
-        <h3>Approach</h3>
+        <h3 id="approach">Approach</h3>
         <ul>
           <li>Implemented source-specific extractors for Google Ads, Facebook Ads, LeadsHook, and LeadsPedia.</li>
           <li>Built CLI-driven extraction and transformation jobs with configurable date windows and ingestion options.</li>
@@ -69,7 +84,7 @@
           <li>Added test coverage around transformation and loading logic to improve release confidence.</li>
         </ul>
 
-        <h3>Outcome</h3>
+        <h3 id="outcome">Outcome</h3>
         <p>
           The platform established a repeatable, auditable data workflow from source APIs to analytics-ready tables.
           This reduced manual reconciliation effort, improved data consistency across reporting views, and created a
@@ -84,7 +99,7 @@
           </div>
           <div class="highlight">
             <span class="meta-label">Data Architecture</span>
-            <strong>Bronze -> Silver -> Gold</strong>
+            <strong>Bronze → Silver → Gold</strong>
             <p>Clear layer boundaries for traceability, quality control, and analytics readiness.</p>
           </div>
           <div class="highlight">
@@ -93,25 +108,70 @@
             <p>Parameterized jobs support repeatable backfills, daily loads, and controlled transformations.</p>
           </div>
         </div>
+
+        <h3 id="architecture">Architecture &amp; Data Flow</h3>
+        <p>
+          The pipeline is structured around clearly separated processing stages so each step can be tested, re-run, and
+          extended independently. Raw data is never modified after ingestion, and each downstream layer is derived from
+          the previous one through explicit, auditable transformations.
+        </p>
+        <ul>
+          <li>Source APIs (Google Ads, Facebook Ads, LeadsHook, LeadsPedia) &rarr; Bronze: raw API responses persisted as-is</li>
+          <li>Bronze &rarr; Silver: schema standardization, type normalization, deduplication, and null handling</li>
+          <li>Silver &rarr; Gold: business aggregations (spend, leads, CPL, conversion rates) ready for reporting</li>
+          <li>Gold &rarr; PostgreSQL: final load for dashboards, analytics queries, and downstream consumption</li>
+          <li>CLI orchestration: each stage is a parameterized command supporting date windowing and selective re-runs</li>
+        </ul>
+
+        <h3 id="technical-decisions">Technical Decisions &amp; Reasoning</h3>
+
+        <h4>1) Why DuckDB for in-pipeline processing?</h4>
+        <p>
+          DuckDB allows fast, SQL-driven transformations over local data files without spinning up a separate
+          data warehouse. For this workload — moderate data volumes, batch-oriented — it gives the speed and
+          expressiveness of a columnar engine without operational overhead. The final gold output is then loaded
+          to PostgreSQL for durable, queryable storage.
+        </p>
+
+        <h4>2) Why CLI-driven jobs over a full orchestration framework?</h4>
+        <p>
+          The pipeline runs on a daily schedule and needs to support manual backfills and selective re-runs without
+          complex infrastructure. A CLI-first design with Click gives teams a predictable, scriptable interface that
+          works locally and in CI environments. Orchestration frameworks can be layered on top when operational complexity justifies them.
+        </p>
+
+        <h4>3) Why the medallion architecture?</h4>
+        <p>
+          Separating raw, cleaned, and aggregated layers makes failures visible and recoverable. If a business logic
+          change is needed, only the affected downstream layers need to be re-run — raw data stays intact. It also
+          provides a clear audit trail: any gold-layer number can be traced back to its source API response.
+        </p>
+
+        <h3 id="next-steps">Next Steps</h3>
+        <ul>
+          <li>Add automated data quality checks (row count thresholds, null rate alerts, schema drift detection) between layers.</li>
+          <li>Integrate a lightweight scheduler (Prefect or GitHub Actions cron) for fully automated daily runs with failure notifications.</li>
+          <li>Build a reporting layer on top of gold tables — initially a BI dashboard for CPL, spend, and lead volume trends.</li>
+          <li>Extend to additional sources (TikTok Ads, LinkedIn) using the same extractor interface.</li>
+        </ul>
+
       </article>
 
       <aside class="case-meta">
         <div class="meta-item">
-          <span class="meta-label">Industry</span>
-          <p>Marketing and Lead Generation</p>
+          <span class="meta-label">Contents</span>
+          <nav class="toc-nav">
+            <a href="#challenge">Challenge</a>
+            <a href="#approach">Approach</a>
+            <a href="#outcome">Outcome</a>
+            <a href="#architecture">Architecture &amp; Data Flow</a>
+            <a href="#technical-decisions">Technical Decisions</a>
+            <a href="#next-steps">Next Steps</a>
+          </nav>
         </div>
-        <div class="meta-item">
-          <span class="meta-label">Duration</span>
-          <p>Iterative ETL development and ongoing operations</p>
-        </div>
-        <div class="meta-item">
-          <span class="meta-label">Tech Stack</span>
-          <p>Python, Click, DuckDB, PostgreSQL, Pandas, Pytest, Poetry, dotenv</p>
-        </div>
-        <div class="meta-item">
-          <span class="meta-label">Scope</span>
-          <p>Data Ingestion, Transformation, Medallion Modeling, Data Loading, Quality Validation</p>
-        </div>
+        <a href="index.html#projects" class="back-link">
+          <i class="fas fa-arrow-left"></i> Back to Work
+        </a>
       </aside>
     </div>
   </main>
